@@ -68,7 +68,7 @@ defineProps({
             :href="route('dashboard')"
                 class="px-6 py-3 text-white bg-indigo-600 rounded hover:bg-indigo-500"
             >
-                View Our Goods test
+                View Our Goods
             </Link>
         </div>
     </div>
