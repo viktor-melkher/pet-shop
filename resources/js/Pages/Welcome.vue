@@ -1,41 +1,45 @@
 <script setup>
 import { Head, Link } from "@inertiajs/vue3";
 
-defineProps({
-    canLogin: {
-        type: Boolean,
-    },
-    canRegister: {
-        type: Boolean,
-    },
-    laravelVersion: {
-        type: String,
-        required: true,
-    },
-    phpVersion: {
-        type: String,
-        required: true,
-    },
-});
+// defineProps({
+//     canLogin: {
+//         type: Boolean,
+//     },
+//     canRegister: {
+//         type: Boolean,
+//     },
+//     laravelVersion: {
+//         type: String,
+//         required: true,
+//     },
+//     phpVersion: {
+//         type: String,
+//         required: true,
+//     },
+// });
 </script>
 
 <template>
     <div
         class="flex flex-col items-center justify-center min-h-screen py-6 bg-gray-100"
     >
-        <div
-            v-if="canLogin"
-            class="sm:fixed sm:top-0 sm:right-0 p-6 text-right"
-        >
+        <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
             <Link
-                v-if="$page.props.auth.user"
+                v-if="$page.props.auth.user && !$page.props.auth.user?.is_admin"
                 :href="route('dashboard')"
                 class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
             >
                 Dashboard
             </Link>
+            <Link
+                v-if="$page.props.auth.user?.is_admin"
+                :href="route('admin.dashboard')"
+                class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+            >
+                Admin Dashboard
+            </Link>
 
-            <template v-else>
+            <template v-if="!$page.props.auth.user">
                 <Link
                     :href="route('login')"
                     class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
@@ -44,7 +48,6 @@ defineProps({
                 </Link>
 
                 <Link
-                    v-if="canRegister"
                     :href="route('register')"
                     class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
                 >
@@ -65,7 +68,7 @@ defineProps({
         </div>
         <div class="mt-8">
             <Link
-            :href="route('dashboard')"
+                :href="route('dashboard')"
                 class="px-6 py-3 text-white bg-indigo-600 rounded hover:bg-indigo-500"
             >
                 View Our Goods
@@ -73,6 +76,3 @@ defineProps({
         </div>
     </div>
 </template>
-
-<style>
-</style>
